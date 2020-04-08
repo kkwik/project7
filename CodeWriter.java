@@ -11,7 +11,7 @@ public class CodeWriter {
     public CodeWriter(File file) throws IOException {
         writer = new FileWriter(file);
         fileName = file.getName();
-        writeInit();
+       writeInit();
     }
 
     public void setFileName(String fileName) throws IOException
@@ -304,13 +304,16 @@ public class CodeWriter {
                 "A=D\n" +
                 "D=M\n" +
                 "@LCL\n" +
-                "M=D\n");
-        writeGoto("R14");
+                "M=D\n" +
+                "@R14\n" +
+                "A=M\n" +
+                "0;JMP\n");
+        //writeGoto("R14");
     }
 
     protected void writeFunction(String functionName, int numLocals) throws IOException
     {
-        writer.append(functionName);
+        writer.append("(" + functionName + ")\n");
         for(int i = 0; i < numLocals; i++)
             writePushPop("C_PUSH", "constant", 0);
     }
